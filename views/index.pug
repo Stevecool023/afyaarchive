@@ -2,4 +2,12 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p Welcome to #[em afyaarchive], a #[strong Hospital Management System] built to show-case concepts and technologies for #[em backend development] as a portfolio project.
+
+  h2 Dynamically generated database content.
+
+  p Among the records in the archive is:
+
+  ul
+    li #[strong Beneficiary Hospitals:] Over !{hospital_count}
+    li #[strong Benefiting Patients:] Over !{patient_count}
