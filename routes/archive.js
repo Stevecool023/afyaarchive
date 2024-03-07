@@ -12,7 +12,7 @@ const patient_history_controller = require("../controllers/patienthistoryControl
 router.get("/", hospital_controller.index);
 
 // GET stuff-only home page.
-router.get("/staff-only", hospital_controller.staff-only);
+router.get("/staff-only", hospital_controller.staff_only);
 
 // GET request for creating a Hospital. This must come before routes that display Hospital (uses id).
 router.get("/hospital/create", hospital_controller.hospital_create_get);
