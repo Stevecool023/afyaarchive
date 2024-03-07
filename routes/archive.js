@@ -74,3 +74,5 @@ router.get("/patienthistory/:id/update", patient_history_controller.patienthisto
 
 // POST request to update patient's history.
 router.post("/patienthistory/:id/update", patient_history_controller.patienthistory_update_post);
+
+module.exports = router;
