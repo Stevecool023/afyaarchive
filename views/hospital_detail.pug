@@ -2,12 +2,11 @@ extends layout
 
 block content
 
-  h1 Hospital: #{hospital.name}
+  h1 #{hospital.name}
 
   div(style='margin-left:20px;margin-top:20px')
 
-    h2 Category: #{hospital.category}
-    h3 Location: #{hospital.locality}
-    h4 #[strong About #{hospital.name}:]
-      div(style='margin-left:20px;margin-top:20px')
-        #{hospital.description}
+    p #[strong Category:] #[em #{hospital.category}]
+    p #[strong Location:] #[em #{hospital.locality}]
+    p #[strong About #{hospital.name}:]
+      p #{hospital.description}
