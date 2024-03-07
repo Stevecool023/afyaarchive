@@ -12,7 +12,7 @@ const PatientHistory = require("./models/patienthistory");
 const Hospital = require("./models/hospital");
 
 const patients = [];
-const patienthistories = [];
+const patientHistories = [];
 const hospitals = [];
 
 const mongoose = require("mongoose");
@@ -26,16 +26,16 @@ async function main() {
   console.log("Debug: About to connect");
   await mongoose.connect(mongoDB);
   console.log("Debug: Should be connected");
-  await createPatients();
-  await createPatientHistories();
   await createHospitals();
+  await createPatientHistories();
+  await createPatients();
   console.log("Debug: Closing mongoose");
   mongoose.connection.close();
 }
 
 // pass index to the ...Create functions so that, for example, hospital[0] will always be KNH, regardless of the order in which the elements of promise.all's argument complete.
 async function patientCreate(index, first_name, surname, date_of_birth, history, national_id, chronic) {
-  const patientdetail = { first_name: first_name, surname: surname, date_of_birth: d_birth, national_id: national_id };
+  const patientdetail = { first_name: first_name, surname: surname, date_of_birth: date_of_birth, national_id: national_id };
   if (history != false) patientdetail.patient_history = history;
   if (chronic != false) patientdetail.chronic_illness = chronic;
 
@@ -43,7 +43,7 @@ async function patientCreate(index, first_name, surname, date_of_birth, history,
 
   await patient.save();
   patients[index] = patient;
-  console.log(`Added patient: ${firts_name} ${surname}`);
+  console.log(`Added patient: ${first_name} ${surname}`);
 }
 
 async function patientHistoryCreate(index, attended_at, med_status, med_start, med_end, hospital, diagnosis, medication) {
@@ -59,7 +59,7 @@ async function patientHistoryCreate(index, attended_at, med_status, med_start, m
   
   const patienthistory = new PatientHistory(patienthistorydetail);
   await patienthistory.save();
-  patienthistories[index] = patienthistory;
+  patientHistories[index] = patienthistory;
   console.log(`Added patienthistory: ${diagnosis}`);
 }
 
@@ -73,112 +73,6 @@ async function hospitalCreate(index, name, category, locality, description) {
   await hospital.save();
   hospitals[index] = hospital;
   console.log(`Aded hospital: ${name}`);
-}
-
-async function createPatients() {
-  console.log("Adding patients");
-  await Promise.all([
-    patientCreate(0, "John", "Doe", "1973-06-06", [patientHistories[17].diagnosis, patientHistories[27].diagnosis], 01234567, "epilepsy"),
-    patientCreate(1, "Asenath", "Mbuvi", "1999-12-01", false, 12345678, false),
-    patientCreate(2, "Emily", "Smith", "1985-09-15", "No patient history", 23456789, "asthma"),
-    patientCreate(3, "David", "Johnson", "1978-03-24", [patientHistories[7].diagnosis, 34567890, false),
-    patientCreate(4, "Sophia", "Brown", "1992-11-05", false, 45678901, "diabetes"),
-    patientCreate(5, "Michael", "Lee", "1982-07-17", false, 56789012, false),
-    patientCreate(6, "Emma", "Jones", "1975-02-28", [patientHistories[0].diagnosis, 67890123, "hypertension"),
-    patientCreate(7, "Ethan", "Garcia", "1989-10-10", "No patient history", 78901234, false),
-    patientCreate(8, "Olivia", "Martinez", "1965-08-03", false, 89012345, "arthritis"),
-    patientCreate(9, "Aiden", "Lopez", "1970-04-12", "No patient history", 90123456, false),
-    patientCreate(10, "Isabella", "Hernandez", "1996-06-22", false, 01234567, "migraine"),
-    patientCreate(11, "Noah", "Miller", "1987-12-30", [patientHistories[25][4][11].diagnosis, 12345678, false),
-    patientCreate(12, "Mia", "Jackson", "1980-05-19", "No patient history", 23456789, "asthma"),
-    patientCreate(13, "James", "Gonzalez", "1968-09-08", "No patient history", 34567890, false),
-    patientCreate(14, "Charlotte", "Wilson", "1977-03-11", false, 45678901, "diabetes"),
-    patientCreate(15, "Benjamin", "Taylor", "1990-07-25", false, 56789012, false),
-    patientCreate(16, "Amelia", "White", "1956-11-14", [patientHistories[19].diagnosis, 67890123, "hypertension"),
-    patientCreate(17, "Lucas", "Martin", "1983-01-02", "No patient history", 78901234, false),
-    patientCreate(18, "Harper", "Rodriguez", "1972-08-27", false, 89012345, "arthritis"),
-    patientCreate(19, "Mason", "Lopez", "1986-04-05", [patientHistories[13].diagnosis, 90123456, false),
-    patientCreate(20, "Evelyn", "Perez", "1993-06-09", false, 01234567, "migraine"),
-    patientCreate(21, "Elijah", "Gomez", "1979-12-18", false, 12345678, false),
-    patientCreate(22, "Abigail", "Flores", "1988-05-31", [patientHistories[3].diagnosis, 23456789, "asthma"),
-    patientCreate(23, "Alexander", "Hill", "1967-09-21", "Not available", 34567890, false),
-    patientCreate(24, "Elizabeth", "Scott", "1974-02-10", false, 45678901, "diabetes"),
-    patientCreate(25, "Daniel", "Young", "1981-07-03", false, 56789012, false),
-    patientCreate(26, "Sofia", "King", "1960-11-24", "Not Available", 67890123, "hypertension"),
-    patientCreate(27, "Matthew", "Adams", "1976-01-15", "Not available", 78901234, false),
-    patientCreate(28, "Chloe", "Rivera", "1971-08-28", false, 89012345, "arthritis"),
-    patientCreate(29, "Lucas", "Diaz", "1984-04-14", [patientHistories[30].diagnosis, 90123456, false),
-    patientCreate(30, "Madison", "Evans", "1995-06-27", false, 01234567, "migraine"),
-    patientCreate(31, "Avery", "Perez", "1985-12-19", false, 12345678, false),
-    patientCreate(32, "Jackson", "Campbell", "1963-09-02", false, 23456789, "asthma"),
-    patientCreate(33, "Liam", "Torres", "1973-03-25", [patientHistories[15][20].diagnosis, 34567890, false),
-    patientCreate(34, "Aria", "Parker", "1978-11-11", false, 45678901, "diabetes"),
-    patientCreate(35, "Jacob", "Stewart", "1989-07-20", [patientHistories[26][8].diagnosis, 56789012, false),
-    patientCreate(36, "Grace", "Sanchez", "1975-02-14", "Not Available", 67890123, "hypertension"),
-    patientCreate(37, "Ella", "Mitchell", "1991-10-08", "Not available", 78901234, false),
-    patientCreate(38, "Logan", "Hill", "1969-04-22", false, 89012345, "arthritis"),
-    patientCreate(39, "Riley", "Nguyen", "1982-06-03", false, 90123456, false),
-    patientCreate(40, "Scarlett", "Gonzalez", "1966-06-17", false, 01234567, "migraine"),
-    patientCreate(41, "Gabriel", "Carter", "1980-12-30", false, 12345678, false),
-    patientCreate(42, "Zoey", "Edwards", "1997-05-19", [patientHistories[1].diagnosis, 23456789, "asthma"),
-    patientCreate(43, "Nathan", "Gutierrez", "1976-09-11", "Not available", 34567890, false),
-    patientCreate(44, "Addison", "Hill", "1983-03-04", false, 45678901, "diabetes"),
-    patientCreate(45, "Lily", "Ross", "1962-07-25", false, 56789012, false),
-    patientCreate(46, "Wyatt", "Ward", "1978-01-16", [patientHistories[10].diagnosis, 67890123, "hypertension"),
-    patientCreate(47, "Zoe", "Washington", "1984-12-18", "Not available", 78901234, false),
-    patientCreate(48, "Henry", "Price", "1970-08-27", false, 89012345, "arthritis"),
-    patientCreate(49, "Leah", "Butler", "1986-04-07", [patientHistories[21].diagnosis, 90123456, false),
-    patientCreate(50, "Luke", "Barnes", "1977-06-21", false, 01234567, "migraine"),
-    patientCreate(51, "Hannah", "Fisher", "1965-10-10", false, 12345678, false),
-    patientCreate(52, "Oliver", "Ramirez", "1979-05-29", [patientHistories[23].diagnosis, 23456789, "asthma"),
-    patientCreate(53, "Lillian", "Reed", "1992-09-08", "Not available", 34567890, false),
-    patientCreate(54, "Gabriel", "Harris", "1988-03-17", false, 45678901, "diabetes"),
-    patientCreate(55, "Carter", "Bailey", "1964-07-03", false, 56789012, false),
-    patientCreate(56, "Skylar", "Russell", "1971-01-24", [patientHistories[5].diagnosis, 67890123, "hypertension"),
-    patientCreate(57, "Nora", "Coleman", "1987-11-08", "Not available", 78901234, false),
-    patientCreate(58, "Christian", "Bryant", "1973-04-22", false, 89012345, "arthritis"),
-    patientCreate(59, "Paisley", "Nguyen", "1980-06-03", false, 90123456, false),
-    patientCreate(60, "Lincoln", "Thompson", "1966-06-17", false, 01234567, "migraine"),
-    patientCreate(61, "Samantha", "Scott", "1978-12-30", false, 12345678, false),
-    patientCreate(62, "Hunter", "Ward", "1996-05-19", "Not Available", 23456789, "asthma"),
-    patientCreate(63, "Hazel", "Gutierrez", "1977-09-11", "Not available", 34567890, false),
-    patientCreate(64, "Penelope", "Hill", "1983-03-04", false, 45678901, "diabetes"),
-    patientCreate(65, "Leo", "Ross", "1962-07-25", false, 56789012, false),
-    patientCreate(66, "Violet", "Ward", "1978-01-16", "Not Available", 67890123, "hypertension"),
-    patientCreate(67, "Sawyer", "Washington", "1984-12-18", "Not available", 78901234, false),
-    patientCreate(68, "Bella", "Price", "1970-08-27", false, 89012345, "arthritis"),
-    patientCreate(69, "Cole", "Butler", "1986-04-07", [patientHistories[12].diagnosis, 90123456, false),
-    patientCreate(70, "Clara", "Barnes", "1977-06-21", false, 01234567, "migraine"),
-    patientCreate(71, "Ellie", "Fisher", "1965-10-10", false, 12345678, false),
-    patientCreate(72, "Xavier", "Ramirez", "1979-05-29", [patientHistories[22][14].diagnosis, 23456789, "asthma"),
-    patientCreate(73, "Mila", "Reed", "1992-09-08", "Not available", 34567890, false),
-    patientCreate(74, "Silas", "Harris", "1988-03-17", false, 45678901, "diabetes"),
-    patientCreate(75, "Luna", "Bailey", "1964-07-03", false, 56789012, false),
-    patientCreate(76, "Eli", "Russell", "1971-01-24", [patientHistories[16][24][32].diagnosis, 67890123, "hypertension"),
-    patientCreate(77, "Aurora", "Coleman", "1987-11-08", "Not available", 78901234, false),
-    patientCreate(78, "Owen", "Bryant", "1973-04-22", false, 89012345, "arthritis"),
-    patientCreate(79, "Levi", "Nguyen", "1980-06-03", "Not Available", 90123456, false),
-    patientCreate(80, "Nathan", "Thompson", "1966-06-17", false, 01234567, "migraine"),
-    patientCreate(81, "Sarah", "Scott", "1978-12-30", false, 12345678, false),
-    patientCreate(82, "Julian", "Ward", "1996-05-19", "Not Available", 23456789, "asthma"),
-    patientCreate(83, "Amara", "Gutierrez", "1977-09-11", "Not available", 34567890, false),
-    patientCreate(84, "Aaron", "Hill", "1983-03-04", false, 45678901, "diabetes"),
-    patientCreate(85, "Ivy", "Ross", "1962-07-25", false, 56789012, false),
-    patientCreate(86, "Ezra", "Ward", "1978-01-16", "Not Available", 67890123, "hypertension"),
-    patientCreate(87, "Alice", "Washington", "1984-12-18", "Not available", 78901234, false),
-    patientCreate(88, "Wyatt", "Price", "1970-08-27", false, 89012345, "arthritis"),
-    patientCreate(89, "Elena", "Butler", "1986-04-07", "Not Available", 90123456, false),
-    patientCreate(90, "Eliana", "Barnes", "1977-06-21", false, 01234567, "migraine"),
-    patientCreate(91, "Tristan", "Fisher", "1965-10-10", false, 12345678, false),
-    patientCreate(92, "Adrian", "Ramirez", "1979-05-29", [patientHistories[6][28][29].diagnosis, 23456789, "asthma"),
-    patientCreate(93, "Ariana", "Reed", "1992-09-08", "Not available", 34567890, false),
-    patientCreate(94, "Ezekiel", "Harris", "1988-03-17", false, 45678901, "diabetes"),
-    patientCreate(95, "Julia", "Bailey", "1964-07-03", false, 56789012, false),
-    patientCreate(96, "Xander", "Russell", "1971-01-24", false, 67890123, "hypertension"),
-    patientCreate(97, "Sienna", "Coleman", "1987-11-08", "Not available", 78901234, false),
-    patientCreate(98, "Gavin", "Bryant", "1973-04-22", false, 89012345, "arthritis"),
-    patientCreate(99, "Caleb", "Nguyen", "1980-06-03", [patientHistories[2][18][31][9].diagnosis, 90123456, false),
-  ]);
 }
 
 async function createHospitals() {
@@ -427,5 +321,111 @@ async function createPatientHistories() {
     patientHistoryCreate(30, "2023-10-15", "Under Medication", "2023-10-15", "2024-02-01", hospitals[32].name, ["Type 1 Diabetes"], ["Glargine", "Lispro"]),
     patientHistoryCreate(31, "2023-07-05", false, null, null, hospitals[1].name, ["Chronic Kidney Disease"], ["Furosemide"]),
     patientHistoryCreate(32, "2023-05-20", "Under Medication", "2023-05-20", "2023-09-01", hospitals[4].name, ["Asthma"], ["Montelukast", "Fluticasone"]),
+  ]);
+}
+
+async function createPatients() {
+  console.log("Adding patients");
+  await Promise.all([
+    patientCreate(0, "John", "Doe", "1973-06-06", [patientHistories[17].diagnosis, patientHistories[27].diagnosis], 01234567, "epilepsy"),
+    patientCreate(1, "Asenath", "Mbuvi", "1999-12-01", false, 12345678, false),
+    patientCreate(2, "Emily", "Smith", "1985-09-15", "No patient history", 23456789, "asthma"),
+    patientCreate(3, "David", "Johnson", "1978-03-24", patientHistories[7].diagnosis, 34567890, false),
+    patientCreate(4, "Sophia", "Brown", "1992-11-05", false, 45678901, "diabetes"),
+    patientCreate(5, "Michael", "Lee", "1982-07-17", false, 56789012, false),
+    patientCreate(6, "Emma", "Jones", "1975-02-28", patientHistories[0].diagnosis, 67890123, "hypertension"),
+    patientCreate(7, "Ethan", "Garcia", "1989-10-10", "No patient history", 78901234, false),
+    patientCreate(8, "Olivia", "Martinez", "1965-08-03", false, 89012345, "arthritis"),
+    patientCreate(9, "Aiden", "Lopez", "1970-04-12", "No patient history", 90123456, false),
+    patientCreate(10, "Isabella", "Hernandez", "1996-06-22", false, 01234567, "migraine"),
+    patientCreate(11, "Noah", "Miller", "1987-12-30", [patientHistories[25].diagnosis, patientHistories[4].diagnosis, patientHistories[11].diagnosis], 12345678, false),
+    patientCreate(12, "Mia", "Jackson", "1980-05-19", "No patient history", 23456789, "asthma"),
+    patientCreate(13, "James", "Gonzalez", "1968-09-08", "No patient history", 34567890, false),
+    patientCreate(14, "Charlotte", "Wilson", "1977-03-11", false, 45678901, "diabetes"),
+    patientCreate(15, "Benjamin", "Taylor", "1990-07-25", false, 56789012, false),
+    patientCreate(16, "Amelia", "White", "1956-11-14", patientHistories[19].diagnosis, 67890123, "hypertension"),
+    patientCreate(17, "Lucas", "Martin", "1983-01-02", "No patient history", 78901234, false),
+    patientCreate(18, "Harper", "Rodriguez", "1972-08-27", false, 89012345, "arthritis"),
+    patientCreate(19, "Mason", "Lopez", "1986-04-05", patientHistories[13].diagnosis, 90123456, false),
+    patientCreate(20, "Evelyn", "Perez", "1993-06-09", false, 01234567, "migraine"),
+    patientCreate(21, "Elijah", "Gomez", "1979-12-18", false, 12345678, false),
+    patientCreate(22, "Abigail", "Flores", "1988-05-31", patientHistories[3].diagnosis, 23456789, "asthma"),
+    patientCreate(23, "Alexander", "Hill", "1967-09-21", "Not available", 34567890, false),
+    patientCreate(24, "Elizabeth", "Scott", "1974-02-10", false, 45678901, "diabetes"),
+    patientCreate(25, "Daniel", "Young", "1981-07-03", false, 56789012, false),
+    patientCreate(26, "Sofia", "King", "1960-11-24", "Not Available", 67890123, "hypertension"),
+    patientCreate(27, "Matthew", "Adams", "1976-01-15", "Not available", 78901234, false),
+    patientCreate(28, "Chloe", "Rivera", "1971-08-28", false, 89012345, "arthritis"),
+    patientCreate(29, "Lucas", "Diaz", "1984-04-14", patientHistories[30].diagnosis, 90123456, false),
+    patientCreate(30, "Madison", "Evans", "1995-06-27", false, 01234567, "migraine"),
+    patientCreate(31, "Avery", "Perez", "1985-12-19", false, 12345678, false),
+    patientCreate(32, "Jackson", "Campbell", "1963-09-02", false, 23456789, "asthma"),
+    patientCreate(33, "Liam", "Torres", "1973-03-25", patientHistories[15, 20].diagnosis, 34567890, false),
+    patientCreate(34, "Aria", "Parker", "1978-11-11", false, 45678901, "diabetes"),
+    patientCreate(35, "Jacob", "Stewart", "1989-07-20", patientHistories[26, 8].diagnosis, 56789012, false),
+    patientCreate(36, "Grace", "Sanchez", "1975-02-14", "Not Available", 67890123, "hypertension"),
+    patientCreate(37, "Ella", "Mitchell", "1991-10-08", "Not available", 78901234, false),
+    patientCreate(38, "Logan", "Hill", "1969-04-22", false, 89012345, "arthritis"),
+    patientCreate(39, "Riley", "Nguyen", "1982-06-03", false, 90123456, false),
+    patientCreate(40, "Scarlett", "Gonzalez", "1966-06-17", false, 01234567, "migraine"),
+    patientCreate(41, "Gabriel", "Carter", "1980-12-30", false, 12345678, false),
+    patientCreate(42, "Zoey", "Edwards", "1997-05-19", patientHistories[1].diagnosis, 23456789, "asthma"),
+    patientCreate(43, "Nathan", "Gutierrez", "1976-09-11", "Not available", 34567890, false),
+    patientCreate(44, "Addison", "Hill", "1983-03-04", false, 45678901, "diabetes"),
+    patientCreate(45, "Lily", "Ross", "1962-07-25", false, 56789012, false),
+    patientCreate(46, "Wyatt", "Ward", "1978-01-16", patientHistories[10].diagnosis, 67890123, "hypertension"),
+    patientCreate(47, "Zoe", "Washington", "1984-12-18", "Not available", 78901234, false),
+    patientCreate(48, "Henry", "Price", "1970-08-27", false, 89012345, "arthritis"),
+    patientCreate(49, "Leah", "Butler", "1986-04-07", patientHistories[21].diagnosis, 90123456, false),
+    patientCreate(50, "Luke", "Barnes", "1977-06-21", false, 01234567, "migraine"),
+    patientCreate(51, "Hannah", "Fisher", "1965-10-10", false, 12345678, false),
+    patientCreate(52, "Oliver", "Ramirez", "1979-05-29", patientHistories[23].diagnosis, 23456789, "asthma"),
+    patientCreate(53, "Lillian", "Reed", "1992-09-08", "Not available", 34567890, false),
+    patientCreate(54, "Gabriel", "Harris", "1988-03-17", false, 45678901, "diabetes"),
+    patientCreate(55, "Carter", "Bailey", "1964-07-03", false, 56789012, false),
+    patientCreate(56, "Skylar", "Russell", "1971-01-24", patientHistories[5].diagnosis, 67890123, "hypertension"),
+    patientCreate(57, "Nora", "Coleman", "1987-11-08", "Not available", 78901234, false),
+    patientCreate(58, "Christian", "Bryant", "1973-04-22", false, 89012345, "arthritis"),
+    patientCreate(59, "Paisley", "Nguyen", "1980-06-03", false, 90123456, false),
+    patientCreate(60, "Lincoln", "Thompson", "1966-06-17", false, 01234567, "migraine"),
+    patientCreate(61, "Samantha", "Scott", "1978-12-30", false, 12345678, false),
+    patientCreate(62, "Hunter", "Ward", "1996-05-19", "Not Available", 23456789, "asthma"),
+    patientCreate(63, "Hazel", "Gutierrez", "1977-09-11", "Not available", 34567890, false),
+    patientCreate(64, "Penelope", "Hill", "1983-03-04", false, 45678901, "diabetes"),
+    patientCreate(65, "Leo", "Ross", "1962-07-25", false, 56789012, false),
+    patientCreate(66, "Violet", "Ward", "1978-01-16", "Not Available", 67890123, "hypertension"),
+    patientCreate(67, "Sawyer", "Washington", "1984-12-18", "Not available", 78901234, false),
+    patientCreate(68, "Bella", "Price", "1970-08-27", false, 89012345, "arthritis"),
+    patientCreate(69, "Cole", "Butler", "1986-04-07", patientHistories[12].diagnosis, 90123456, false),
+    patientCreate(70, "Clara", "Barnes", "1977-06-21", false, 01234567, "migraine"),
+    patientCreate(71, "Ellie", "Fisher", "1965-10-10", false, 12345678, false),
+    patientCreate(72, "Xavier", "Ramirez", "1979-05-29", patientHistories[22, 14].diagnosis, 23456789, "asthma"),
+    patientCreate(73, "Mila", "Reed", "1992-09-08", "Not available", 34567890, false),
+    patientCreate(74, "Silas", "Harris", "1988-03-17", false, 45678901, "diabetes"),
+    patientCreate(75, "Luna", "Bailey", "1964-07-03", false, 56789012, false),
+    patientCreate(76, "Eli", "Russell", "1971-01-24", patientHistories[16, 24, 32].diagnosis, 67890123, "hypertension"),
+    patientCreate(77, "Aurora", "Coleman", "1987-11-08", "Not available", 78901234, false),
+    patientCreate(78, "Owen", "Bryant", "1973-04-22", false, 89012345, "arthritis"),
+    patientCreate(79, "Levi", "Nguyen", "1980-06-03", "Not Available", 90123456, false),
+    patientCreate(80, "Nathan", "Thompson", "1966-06-17", false, 01234567, "migraine"),
+    patientCreate(81, "Sarah", "Scott", "1978-12-30", false, 12345678, false),
+    patientCreate(82, "Julian", "Ward", "1996-05-19", "Not Available", 23456789, "asthma"),
+    patientCreate(83, "Amara", "Gutierrez", "1977-09-11", "Not available", 34567890, false),
+    patientCreate(84, "Aaron", "Hill", "1983-03-04", false, 45678901, "diabetes"),
+    patientCreate(85, "Ivy", "Ross", "1962-07-25", false, 56789012, false),
+    patientCreate(86, "Ezra", "Ward", "1978-01-16", "Not Available", 67890123, "hypertension"),
+    patientCreate(87, "Alice", "Washington", "1984-12-18", "Not available", 78901234, false),
+    patientCreate(88, "Wyatt", "Price", "1970-08-27", false, 89012345, "arthritis"),
+    patientCreate(89, "Elena", "Butler", "1986-04-07", "Not Available", 90123456, false),
+    patientCreate(90, "Eliana", "Barnes", "1977-06-21", false, 01234567, "migraine"),
+    patientCreate(91, "Tristan", "Fisher", "1965-10-10", false, 12345678, false),
+    patientCreate(92, "Adrian", "Ramirez", "1979-05-29", patientHistories[6, 28, 29].diagnosis, 23456789, "asthma"),
+    patientCreate(93, "Ariana", "Reed", "1992-09-08", "Not available", 34567890, false),
+    patientCreate(94, "Ezekiel", "Harris", "1988-03-17", false, 45678901, "diabetes"),
+    patientCreate(95, "Julia", "Bailey", "1964-07-03", false, 56789012, false),
+    patientCreate(96, "Xander", "Russell", "1971-01-24", false, 67890123, "hypertension"),
+    patientCreate(97, "Sienna", "Coleman", "1987-11-08", "Not available", 78901234, false),
+    patientCreate(98, "Gavin", "Bryant", "1973-04-22", false, 89012345, "arthritis"),
+    patientCreate(99, "Caleb", "Nguyen", "1980-06-03", patientHistories[2, 18, 31, 9].diagnosis, 90123456, false),
   ]);
 }
