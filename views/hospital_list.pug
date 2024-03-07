@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1= title
-  p This hospitals are arranged in #{strong ascending order] with respect to their #[em location].
+  p This hospitals are arranged in #[strong ascending order] with respect to their #[em location].
 
   - let uniqueHospital = new Set() // Create a set to store unique hospital names.
   if hospital_list.length
