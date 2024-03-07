@@ -2,12 +2,16 @@ extends layout
 
 block content
   h1= title
+
+  - let uniqueHospital = new Set() // Create a set to store unique hospital names.
   if hospital_list.length
     ul
       each hospital in hospital_list
-        li
-          a(href=hospital.url) #{hospital.name}
-          |  (#{hospital.locality})
+        - if (!uniqueHospital.has(hospital.name)) // Check if hospital is in set.
+          - uniqueHospital.add(hospital.name)
+          li
+            a(href=hospital.url) #{hospital.name}
+            |  (#{hospital.locality})
 
   else
     p No recorded hospitas yet.
