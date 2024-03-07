@@ -6,7 +6,6 @@ const PatientSchema = new Schema({
   first_name: { type: String, required: true, maxLength: 100 },
   surname: { type: String, required: true, maxLength: 100 },
   date_of_birth: { type: Date },
-  age: { type: Number },
   patient_history: { type: String },
   national_id: { type: Number, required: true },
   chronic_illness: { type: String },
