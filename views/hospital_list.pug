@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  if hospital_list.length
+    ul
+      each hospital in hospital_list
+        li
+          a(href=hospital.url) #{hospital.name}
+          |  (#{hospital.locality})
+
+  else
+    p No recorded hospitas yet.
