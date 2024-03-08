@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h1= title
+
+  form(method='POST')
+    div.form-group
+      label(for='name') Hospital Name:
+      input#name.form-control(type='text', placeholder='Hospital name (Thika Medical Center)' name='name' required value=(undefined===hospital ? '' : hospital.name))
+      label(for='category') Hospital Category:
+      input#category.form-control(type='text', placeholder='category (Level 5)' name='category' required value=(undefined===hospital ? '' : hospital.category))
+      label(for='locality') Hospital Location:
+      input#locality.form-control(type='text', placeholder='location (Thika)' name='locality' required value=(undefined===hospital ? '' : hospital.locality))
+    div.form-group
+      label(for='description') Description:
+      textarea#description.form-control(placeholder='hospital description' name='description' required)= undefined===hospital ? '' : hospital.description
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg
