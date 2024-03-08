@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  h1= title
+
+  form(method='POST')
+    div.form-group
+      label(for='first_name') First Name:
+      input#first_name.form-control(type='text', placeholder='First name (Steve)' name='first_name' required value=(undefined===patient ? '' : patient.first_name))
+      label(for='surname') Surname:
+      input#surname.form-control(type='text', placeholder='Family name' name='surname' required value=(undefined===patient ? : patient.surname))
+    div.form-group
+      label(for='date_of_birth') Date of Birth:
+      input#date_of_birth.form-control(type='date' name='date_of_birth' value=(undefined===patient ? '' : patient.date_of_birth) )
+    div.form-group
+      label(for='national_id') National Identification:
+      input#national_id.form-control(type='number', placeholder='ID: 123***12' name='national_id' required value=(undefined===patient ? : patient.national_id))
+    div.form-group
+      label(for='chronic_illness') Chronic Illness:
+      input#chronic_illness.form-controller(type='text', placeholder="long-term condition' name='chronic_illness' value=(undefined===patient ? : patient.chronic_illness))
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg
