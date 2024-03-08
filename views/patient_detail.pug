@@ -9,13 +9,13 @@ block content
     p Date of Birth: #[em #{patient.date_of_birth}]
     p National ID: #[em #{patient.national_id}]
     p Chronic Illness: #[em #{patient.chronic_illness]
+    p #{history.medication_status}
     p Patient History:
       if patient_history.length
         ul
           each history in patient_history
             li
               a(href=history.url) #{history}
-            p #{history.medication_status}
 
       else
         This patient has no history.
