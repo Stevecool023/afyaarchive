@@ -1,0 +1,21 @@
+extends layout
+
+block content
+
+  h1 #{patient.fullname}
+
+  div(style='margin-left:20px;margin-top:20px');
+    
+    p Date of Birth: #[em #{patient.date_of_birth}]
+    p National ID: #[em #{patient.national_id}]
+    p Chronic Illness: #[em #{patient.chronic_illness]
+    p Patient History:
+      if patient_history.length
+        ul
+          each history in patient_history
+            li
+              a(href=history.url) #{history}
+            p #{history.medication_status}
+
+      else
+        This patient has no history.
