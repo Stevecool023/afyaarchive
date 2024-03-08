@@ -1,0 +1,15 @@
+extends layout
+
+block content
+
+  h1 #{patient.fullname}
+
+  div(style='margin-left:20px;margin-top:20px')
+    
+    p Diagnosis: #{patienthistory.diagnosis}
+    p Date of diagnosis: #{patienthistory.attended_at}
+    p Medication: #{patienthistory.medication}
+    p Hospital attended: #{patienthistory.hospital}
+    
+    h4 Period under medication:
+      p #{patienthistory.medication_start} - #{patienthistory.medication_end}
