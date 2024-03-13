@@ -1,0 +1,14 @@
+extends layout
+
+block content
+
+  h1 #{title}: #{hospital.name}
+  p= hospital.locality
+
+  p Do you really want to delete this Hospital?
+
+  form(method='POST')
+    div.form-group
+      input#author.form-control(type='hidden', name='hospitalid', value=hospital._id)
+
+    button.btn.btn-primary(type='submit') Delete

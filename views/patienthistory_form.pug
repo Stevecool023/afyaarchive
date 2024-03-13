@@ -1,0 +1,42 @@
+extends layout
+
+block content
+  for patient in patients
+    h1= patient.name
+
+  form(method='POST')
+    div.form-group
+      label(for='diagnosis') Diagnosis:
+      input#diagnosis.form-control(type='text', placeholder='illness found' name='diagnosis' required value=(undefined===patienthistory ? '' : patienthistory.diagnosis) )
+      label(for='medication') Medication:
+      input#medication.form-control(type='text', placeholder='medications given' name='medication' required value=(undefined===patienthistory ? '' : patienthistory.medication) )
+    div.form-group
+      label(for='attended_at') Date of diagnosis:
+      input#attended_at.form-control(type='date' name='attended_at' value=(undefined===patienthistory ? '' : patienthistory.attended_at) )
+    div.form-group
+      label(for='hospital') Hospital attended:
+      select#hospital.form-control(name='hospital' required)
+        option(value='') --Please select a hospital--
+        for hospital in hospitals
+          option(value=hospital.id)= hospital.name
+          if patienthistory
+            if hospital._id.toString()===patienthistory.hospital._id.toString()
+              option(value=hospital._id selected) #{hospital.name}
+            else
+              option(value=hospital._id) #{hospital.name}
+      a(href='/archive/create/hospital') Create hospital
+    div.form-group
+      label(for='medication_status') Medication status:
+      input#medicatin_status.form-control(type='text', placeholder='under medication??' name='medication_status' required value=(undefined===patienthistory ? '' : patienthistory.medication_status) )
+    div(style="margin-top:20px;margin-left:20px")
+      label(for='medication_start') Start-date:
+      input#medication_start.form-control(type='date' name='medication_start' value=(undefined===patienthistory ? '' : patienthistory.medication_start) )
+      label(for='medication_end') End-date:
+      input#medication_end.form-control(type='date' name='medication_end' value=(undefined===patienthistory ? '' : patienthistory.medication_end) )
+
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg

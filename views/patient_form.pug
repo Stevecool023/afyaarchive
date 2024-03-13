@@ -17,7 +17,7 @@ block content
       input#national_id.form-control(type='number', placeholder='ID: 123***12' name='national_id' required value=(undefined===patient ? '' : patient.national_id))
     div.form-group
       label(for='chronic_illness') Chronic Illness:
-      input#chronic_illness.form-controller(type='text', placeholder="long-term condition' name='chronic_illness' value=(undefined===patient ? '' : patient.chronic_illness))
+      input#chronic_illness.form-control(type='text', placeholder='long-term condition' name='chronic_illness' value=(undefined===patient ? '' : patient.chronic_illness))
     button.btn.btn-primary(type='submit') Submit
 
   if errors

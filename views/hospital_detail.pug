@@ -10,3 +10,9 @@ block content
     p #[strong Location:] #[em #{hospital.locality}]
     p #[strong About #{hospital.name}:]
       p #{hospital.description}
+
+    hr
+    p
+      a(href=hospital.url+'/delete') Delete Hospital
+    p
+      a(href=hospital.url+'/update') Update Hospital

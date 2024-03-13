@@ -1,15 +1,19 @@
 extends layout
 
 block content
-
-  h1 #{patient.fullname}
+  
+  if patient
+    h1 #{patient.first_name}
+  else
+    h1= title
 
   div(style='margin-left:20px;margin-top:20px')
     
-    p Diagnosis: #{patienthistory.diagnosis}
-    p Date of diagnosis: #{patienthistory.attended_at}
+    for diagnosis in patienthistory.diagnosis
+      li Diagnosis: #{diagnosis}
+    p Date of diagnosis: #{patienthistory.attended_at_formatted}
     p Medication: #{patienthistory.medication}
-    p Hospital attended: #{patienthistory.hospital}
+    p Hospital attended: #{patienthistory.hospital.name}
     
     h4 Period under medication:
       p #{patienthistory.med_start_date_formatted} - #{patienthistory.med_end_date_formatted}
