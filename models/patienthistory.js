@@ -5,6 +5,7 @@ const { DateTime } = require("luxon");
 const Schema = mongoose.Schema;
 
 const PatientHistorySchema = new Schema({
+  patient: { type: Schema.Types.ObjectId, ref: "Patient" },
   hospital: { type: Schema.Types.ObjectId, ref: "Hospital" },
   attended_at: { type: Date, required: true },
   medication_status: { type: String },
