@@ -9,10 +9,9 @@ block content
     p Date of Birth: #[em #{patient.date_birth_formatted}]
     p National ID: #[em #{patient.national_id}]
     p Chronic Illness: #[em #{patient.chronic_illness}]
-    p Patient History diagnosis: #{HistoryOutput}
-      //div(style='margin-left:40px;margin-top:30px')
-        
-        //else
-          //div(style='margin-left:40px;margin-top:30px')
-            // p This patient has no history:
-            // a(href='/archive/patienthistory/create')
+    p #[Patient History: ]
+      each history, index in patient.patient_history
+        each diag in history.diagnosis
+          a(href=history.url) #{diag}
+          //if index < patient.patient_history.length - 1
+            //|,&nbsp;

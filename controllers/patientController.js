@@ -73,7 +73,6 @@ exports.patient_id_post = [
 exports.patient_detail = asyncHandler(async (req, res, next) => {
   // Get details for patients.
   const patient = await Patient.findById(req.params.id).exec();
-  const histories = await PatientHistory.find({}).exec();
 
   if (patient === null) {
     // No results.
@@ -82,34 +81,13 @@ exports.patient_detail = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
-  let HistoryId = null;
-  let HistoryOutput = patient.patient_history;
-
   console.log("Patient:", patient);
   console.log("Patient history:", patient.patient_history);
-  console.log("Patient histories:", histories);
-  
-  if (typeof patient.patient_history === 'object') {
-    HistoryId = patient.patient_history;
-
-    for (const history of histories) {
-      if (history.historyid === HistoryId) {
-        HistoryOutput = history.diagnosis;
-      }
-    }
-  }
-
-  /*console.log("ID:", HistoryId);
-  console.log("Patient history:", HistoryOutput);
-  for (const history of histories) {
-    console.log("Diagnosis:", history.diagnosis);
-  }*/
+  console.log("Patient diagnosis:", patient.patient_history.diagnosis);
 
   res.render("patient_detail", {
     title: patient.name,
     patient: patient,
-    HistoryOutput: HistoryOutput,
-    // histories: histories,
   });
 });
 
